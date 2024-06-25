@@ -29,11 +29,6 @@ table 123456743 PSFT
             DataClassification = ToBeClassified;
             TableRelation = DimensionWochentag.Wochentag_ID;
         }
-        field(5; SollArbeitsTage; Integer)
-        {
-            Caption = 'Soll Arbeitstage';
-            DataClassification = ToBeClassified;
-        }
         field(6; Abwesenheitstage; Integer)
         {
             Caption = 'Abwesenheitstage';

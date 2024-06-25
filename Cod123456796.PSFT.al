@@ -78,8 +78,8 @@ codeunit 123456743 PSFT
 
                 if recAbsence.FindSet() then begin
                     repeat
-
                         //Check date in calender and if equal to Wochentag
+
                         Abwesenheitstage_data += 1;
                     until recAbsence.Next() = 0;
                 end;
@@ -87,7 +87,6 @@ codeunit 123456743 PSFT
 
                 //Soll Arbeitstage
                 //Kalender mit Feiertagen einfügen
-                recPSFT.SollArbeitsTage := 28;
 
                 if not recPSFT.Modify() then
                     Error('Update failed for PSFT');
