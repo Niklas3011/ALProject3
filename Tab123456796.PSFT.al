@@ -29,14 +29,14 @@ table 123456743 PSFT
             DataClassification = ToBeClassified;
             TableRelation = DimensionWochentag.Wochentag_ID;
         }
-        field(5; Kranke_Tage; Integer)
+        field(5; SollArbeitsTage; Integer)
         {
-            Caption = 'Kranke_Tage';
+            Caption = 'Soll Arbeitstage';
             DataClassification = ToBeClassified;
         }
-        field(6; Kranke_Montage; Integer)
+        field(6; Abwesenheitstage; Integer)
         {
-            Caption = 'Kranke_Montage';
+            Caption = 'Abwesenheitstage';
             DataClassification = ToBeClassified;
         }
     }

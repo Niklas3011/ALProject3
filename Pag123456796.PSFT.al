@@ -29,11 +29,11 @@ page 123456743 PSFT
                 {
                     ToolTip = 'Specifies the value of the WochentagID field.';
                 }
-                field(Kranke_Montage; Rec.Kranke_Montage)
+                field(SollArbeitsTage; Rec.SollArbeitsTage)
                 {
                     ToolTip = 'Jebote';
                 }
-                field(Kranke_Tage; Rec.Kranke_Tage)
+                field(Abwesenheitstage; Rec.Abwesenheitstage)
                 {
                     ToolTip = 'blyat';
                 }

@@ -16,7 +16,7 @@ codeunit 123456742 DimensionZeit
         ConcatenatedText: Text;
     begin
         dimRec.DeleteAll();
-        Start := DMY2Date(1, 1, 2020);
+        Start := DMY2Date(1, 1, 2022);
         Ende := DMY2Date(31, 12, 2025);
         dateRec.Init();
         dateRec.SetRange("Period Type", dateRec."Period Type"::Month);

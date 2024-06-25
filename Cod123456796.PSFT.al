@@ -16,18 +16,20 @@ codeunit 123456743 PSFT
         recPSFT: Record PSFT;
         recAbsence: Record "Employee Absence";
         recDate: Record Date;
-        krankeMontage: Integer;
-        krankeTage: Integer;
+        SollArbeitsTage_data: Integer;
+        Abwesenheitstage_data: Integer;
         Year: Integer;
         Month: Integer;
         NewDate: Date;
+        EndDate: Date;
         ConcatenatedText: Text;
         MonthText: Text;
         YearText: Text;
         checkDay: Boolean;
+        FirstOfMonth: Date;
+        LastOfMonth: Date;
     begin
         recPSFT.DeleteAll();
-        recPSFT.Init();
         if recZeit.FindFirst() then begin
             repeat
                 if recGrund.FindFirst() then begin
@@ -36,6 +38,7 @@ codeunit 123456743 PSFT
                             repeat
                                 if recWochentag.FindFirst() then begin
                                     repeat
+                                        recPSFT.Init();
                                         recPSFT.Grund_ID := recGrund.Grund_ID;
                                         recPSFT.Mitarbeiter_ID := recMitarbeiter.Mitarbeiter_ID;
                                         recPSFT.Monat_Jahr_ID := recZeit.Monat_Jahr_ID;
@@ -51,12 +54,14 @@ codeunit 123456743 PSFT
             until recZeit.Next() = 0;
         end;
 
-        if recPSFT.FindFirst() then begin
-            recAbsence.Init();
+        if recPSFT.FindSet() then begin
             repeat
                 //Fakten berechnen
-                recAbsence.SETRANGE("Employee No.", recPSFT.Mitarbeiter_ID);
-                recAbsence.SETRANGE("Cause of Absence Code", 'KRANK');
+                recAbsence.Init();
+                recAbsence.SetFilter("Employee No.", recPSFT.Mitarbeiter_ID);
+                recAbsence.SetFilter("Cause of Absence Code", 'KRANK');
+
+                //Zeitraum bestimmen
                 MonthText := COPYSTR(recPSFT.Monat_Jahr_ID, 1, STRPOS(recPSFT.Monat_Jahr_ID, '/') - 1);
                 YearText := COPYSTR(recPSFT.Monat_Jahr_ID, STRPOS(recPSFT.Monat_Jahr_ID, '/') + 1);
 
@@ -64,29 +69,26 @@ codeunit 123456743 PSFT
                 EVALUATE(Month, MonthText);
                 EVALUATE(Year, YearText);
                 NewDate := DMY2Date(1, Month, Year);
-                recAbsence.SETRANGE("From Date", NewDate);
+                EndDate := CALCDATE('<+1M-1D>', NewDate);
 
+                recAbsence.SETRANGE("From Date", NewDate, EndDate);
+                Abwesenheitstage_data := 0;
 
-                if recAbsence.FindFirst() then begin
+                if recAbsence.FindSet() then begin
                     repeat
-                        //Kranke Tage berechnen
-                        krankeTage += recAbsence.Quantity;
-
-                        //Kranke Montage berechnen
-                        recDate.SETRANGE("Period Start", recAbsence."From Date");
-                        if recDate.FindFirst() then begin
-                            if recDate."Period Name" = 'Montag' then begin
-                                krankeMontage += 1;
-                            end
-                        end;
+                        Abwesenheitstage_data += recAbsence.Quantity
                     until recAbsence.Next() = 0;
                 end;
+                recPSFT.Abwesenheitstage := Abwesenheitstage_data;
 
-                //Fakten eintragen
-                recPSFT.Kranke_Montage := krankeMontage;
-                recPSFT.Kranke_Tage := krankeTage;
+                //Soll Arbeitstage
+                //Kalender mit Feiertagen
+                recPSFT.SollArbeitsTage := 28;
+
+                if not recPSFT.Modify() then
+                    Error('Update failed for PSFT');
+            //Fakten eintragen
             until recPSFT.Next() = 0;
         end;
     end;
-
 }
