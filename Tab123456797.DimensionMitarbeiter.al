@@ -1,8 +1,8 @@
 namespace ALProject.ALProject;
 
-table 123456744 Dimension_Mitarbeiter
+table 123456744 DimensionMitarbeiter
 {
-    Caption = 'Dimension_Mitarbeiter';
+    Caption = 'DimensionMitarbeiter';
     DataClassification = ToBeClassified;
 
     fields

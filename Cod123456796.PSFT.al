@@ -11,7 +11,7 @@ codeunit 123456743 PSFT
     var
         recGrund: Record DimensionGrund;
         recZeit: Record DimensionZeit;
-        recMitarbeiter: Record Dimension_Mitarbeiter;
+        recMitarbeiter: Record DimensionMitarbeiter;
         recWochentag: Record DimensionWochentag;
         recPSFT: Record PSFT;
         recAbsence: Record "Employee Absence";
@@ -27,7 +27,7 @@ codeunit 123456743 PSFT
         checkDay: Boolean;
     begin
         recPSFT.DeleteAll();
-
+        recPSFT.Init();
         if recZeit.FindFirst() then begin
             repeat
                 if recGrund.FindFirst() then begin
@@ -52,14 +52,15 @@ codeunit 123456743 PSFT
         end;
 
         if recPSFT.FindFirst() then begin
+            recAbsence.Init();
             repeat
                 //Fakten berechnen
                 recAbsence.SETRANGE("Employee No.", recPSFT.Mitarbeiter_ID);
                 recAbsence.SETRANGE("Cause of Absence Code", 'KRANK');
+                MonthText := COPYSTR(recPSFT.Monat_Jahr_ID, 1, STRPOS(recPSFT.Monat_Jahr_ID, '/') - 1);
+                YearText := COPYSTR(recPSFT.Monat_Jahr_ID, STRPOS(recPSFT.Monat_Jahr_ID, '/') + 1);
 
                 //Get the Date from the Key
-                MonthText := COPYSTR(recPSFT.Monat_Jahr_ID, 1, 2);
-                YearText := COPYSTR(recPSFT.Monat_Jahr_ID, 3);
                 EVALUATE(Month, MonthText);
                 EVALUATE(Year, YearText);
                 NewDate := DMY2Date(1, Month, Year);

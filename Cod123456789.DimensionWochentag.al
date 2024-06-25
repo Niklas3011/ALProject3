@@ -11,22 +11,26 @@ codeunit 123456741 DimensionWochentag
         dateRec: Record Date;
         Start: Date;
         Ende: Date;
+        PK: Integer;
 
     begin
         dimRec.DeleteAll();
-        Start := 20240623D;
-        Ende := 20190101D;
-        dateRec.SetRange("Period Start", Start, Ende); // Filter for dates after 02.2023
-
-        if dateRec.FindSet() then begin
+        dateRec.Init();
+        dateRec.SetRange("Period Start", DMY2Date(30, 12, 2019), DMY2Date(3, 1, 2020));
+        PK := 1;
+        if dateRec.FindFirst() then begin
             repeat
                 // Process each record
-                dimRec.INIT;
+                dimRec.Init();
                 dimRec.Wochentag := dateRec."Period Name"; // Replace 'EntryDate' with actual field name from 'Date' table
-
+                dimRec.Wochentag_ID := PK;
+                PK += 1;
                 // Assign other fields as needed
-                dimRec.INSERT(true);
-            until dateRec.NEXT = 0;
+                if not dimRec.Insert() then
+                    Message('Insert funktioniert nicht');
+                if dimRec.Wochentag = 'Freitag' then
+                    exit;
+            until dateRec.Next() = 0;
         end;
     end;
 }

@@ -5,7 +5,7 @@ table 123456741 DimensionWochentag
 
     fields
     {
-        field(1; Wochentag_ID; Code[1])
+        field(1; Wochentag_ID; Integer)
         {
             Caption = 'Wochentag_ID';
         }

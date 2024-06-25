@@ -5,7 +5,7 @@ page 123456744 DimensionMitarbeiter
     ApplicationArea = All;
     Caption = 'DimensionMitarbeiter';
     PageType = List;
-    SourceTable = Dimension_Mitarbeiter;
+    SourceTable = DimensionMitarbeiter;
 
     layout
     {

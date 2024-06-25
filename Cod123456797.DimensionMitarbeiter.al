@@ -3,13 +3,14 @@ using Microsoft.HumanResources.Employee;
 
 codeunit 123456744 DimensionMitarbeiter
 {
-    TableNo = Dimension_Mitarbeiter;
+    TableNo = DimensionMitarbeiter;
 
     trigger OnRun()
     begin
         dimRec.DeleteAll();
         if empRec.FindFirst() then
             repeat
+                dimRec.Init();
                 dimRec.Mitarbeiter_ID := empRec."No.";
                 dimRec.Nachname := empRec."Last Name";
                 dimRec.Vorname := empRec."First Name";
@@ -24,5 +25,5 @@ codeunit 123456744 DimensionMitarbeiter
 
     var
         empRec: Record Employee;
-        dimRec: Record Dimension_Mitarbeiter;
+        dimRec: Record DimensionMitarbeiter;
 }

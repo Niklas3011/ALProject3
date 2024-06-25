@@ -21,9 +21,9 @@ table 123456743 PSFT
         {
             Caption = 'MitarbeiterID';
             DataClassification = ToBeClassified;
-            TableRelation = Dimension_Mitarbeiter.Mitarbeiter_ID;
+            TableRelation = DimensionMitarbeiter.Mitarbeiter_ID;
         }
-        field(4; Wochentag_ID; Code[10])
+        field(4; Wochentag_ID; Integer)
         {
             Caption = 'WochentagID';
             DataClassification = ToBeClassified;

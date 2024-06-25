@@ -1,3 +1,4 @@
+namespace ALProject.ALProject;
 table 123456740 DimensionGrund
 {
     Caption = 'DimensionGrund';
