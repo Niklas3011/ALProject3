@@ -11,7 +11,7 @@ table 123456743 PSFT
             DataClassification = ToBeClassified;
             TableRelation = DimensionZeit.Monat_Jahr_ID;
         }
-        field(2; Grund_ID; Integer)
+        field(2; Grund_ID; Text[12])
         {
             Caption = 'GrundID';
             DataClassification = ToBeClassified;

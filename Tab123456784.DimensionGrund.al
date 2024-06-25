@@ -6,7 +6,7 @@ table 123456740 DimensionGrund
 
     fields
     {
-        field(1; Grund_ID; Integer)
+        field(1; Grund_ID; Text[12])
         {
             Caption = 'Grund_ID';
         }

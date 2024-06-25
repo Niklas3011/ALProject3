@@ -59,7 +59,7 @@ codeunit 123456743 PSFT
                 //Fakten berechnen
                 recAbsence.Init();
                 recAbsence.SetFilter("Employee No.", recPSFT.Mitarbeiter_ID);
-                recAbsence.SetFilter("Cause of Absence Code", 'KRANK');
+                recAbsence.SetFilter("Cause of Absence Code", recPSFT.Grund_ID);
 
                 //Zeitraum bestimmen
                 MonthText := COPYSTR(recPSFT.Monat_Jahr_ID, 1, STRPOS(recPSFT.Monat_Jahr_ID, '/') - 1);
@@ -74,15 +74,19 @@ codeunit 123456743 PSFT
                 recAbsence.SETRANGE("From Date", NewDate, EndDate);
                 Abwesenheitstage_data := 0;
 
+                //Check date in calender and if equal to Wochentag
+
                 if recAbsence.FindSet() then begin
                     repeat
-                        Abwesenheitstage_data += recAbsence.Quantity
+
+                        //Check date in calender and if equal to Wochentag
+                        Abwesenheitstage_data += 1;
                     until recAbsence.Next() = 0;
                 end;
                 recPSFT.Abwesenheitstage := Abwesenheitstage_data;
 
                 //Soll Arbeitstage
-                //Kalender mit Feiertagen
+                //Kalender mit Feiertagen einfügen
                 recPSFT.SollArbeitsTage := 28;
 
                 if not recPSFT.Modify() then

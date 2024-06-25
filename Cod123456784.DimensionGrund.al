@@ -18,7 +18,7 @@ codeunit 123456740 DimensionGrund
             repeat
                 dimGrund.Init(); // Initialize the record variable
                 dimGrund.Grund := recAbsence.Description;
-                dimGrund.Grund_ID := PK;
+                dimGrund.Grund_ID := recAbsence.Code;
                 if not dimGrund.Insert() then
                     Message('Insert funktioniert nicht'); // Display error message if insert fails
                 PK += 1; // Increment primary key
