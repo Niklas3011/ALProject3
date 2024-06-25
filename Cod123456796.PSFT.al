@@ -16,18 +16,16 @@ codeunit 123456743 PSFT
         recPSFT: Record PSFT;
         recAbsence: Record "Employee Absence";
         recDate: Record Date;
-        SollArbeitsTage_data: Integer;
         Abwesenheitstage_data: Integer;
         Year: Integer;
         Month: Integer;
         NewDate: Date;
         EndDate: Date;
-        ConcatenatedText: Text;
         MonthText: Text;
         YearText: Text;
-        checkDay: Boolean;
         FirstOfMonth: Date;
         LastOfMonth: Date;
+        DayOfWeek: Integer;
     begin
         recPSFT.DeleteAll();
         if recZeit.FindFirst() then begin
@@ -79,8 +77,9 @@ codeunit 123456743 PSFT
                 if recAbsence.FindSet() then begin
                     repeat
                         //Check date in calender and if equal to Wochentag
-
-                        Abwesenheitstage_data += 1;
+                        DayOfWeek := Date2DWY(recAbsence."From Date", 1);
+                        if DayOfWeek = recPSFT.Wochentag_ID then
+                            Abwesenheitstage_data += 1;
                     until recAbsence.Next() = 0;
                 end;
                 recPSFT.Abwesenheitstage := Abwesenheitstage_data;
