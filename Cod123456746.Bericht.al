@@ -1,4 +1,6 @@
 namespace ALProject.ALProject;
+using Microsoft.Foundation.Company;
+using Microsoft.Foundation.Calendar;
 
 codeunit 123456746 Bericht
 {
@@ -13,15 +15,27 @@ codeunit 123456746 Bericht
         MonthText: Text;
         YearText: Text;
         Year: Integer;
+        Month: Integer;
         recDimMitarbeiter: Record DimensionMitarbeiter;
         filteredMitarbeiter: List of [Code[20]];
         filterString: Text;
         EmployeeID: Code[20];
         TempAggregatedBericht: Record Bericht temporary;
         IsFound: Boolean;
+        CompanyInformation: Record "Company Information";
+        CU7600: Codeunit "Calendar Management";
+        custom: Record "Customized Calendar Change";
+        StartDate: Date;
+        EndDate: Date;
+        Workingdays: Integer;
+        CurrentDate: Date;
+        DayOfWeek: Integer;
+        IsNonWorkingDay: Boolean;
 
     begin
         recBericht.DeleteAll();
+        CompanyInformation.get();
+        CU7600.SetSource(CompanyInformation, custom);
 
         // Mitarbeiter rausfiltern die PROD angehören
         recDimMitarbeiter.SetFilter(Abteilung, 'PROD');
@@ -52,10 +66,34 @@ codeunit 123456746 Bericht
                 MonthText := COPYSTR(recPSFT.Monat_Jahr_ID, 1, STRPOS(recPSFT.Monat_Jahr_ID, '/') - 1);
                 YearText := COPYSTR(recPSFT.Monat_Jahr_ID, STRPOS(recPSFT.Monat_Jahr_ID, '/') + 1);
                 EVALUATE(Year, YearText);
+                Evaluate(Month, MonthText);
 
+                //Aus dem Calendar die Soll Arbeitstage für den Montag rausziehen
+                //1/2022 
+
+                Workingdays := 0;
+                StartDate := DMY2Date(1, Month, Year);
+                EndDate := CALCDATE('<+1M-1D>', StartDate);
+                CurrentDate := StartDate;
+
+                while CurrentDate <= EndDate do begin
+                    DayOfWeek := DATE2DWY(CurrentDate, 1);
+
+                    // Check if the day is Monday (Monday is represented by 1)
+                    if DayOfWeek = 1 then begin
+                        // Check if it's a working day
+                        IsNonWorkingDay := CU7600.IsNonWorkingDay(CurrentDate, custom);
+                        if not IsNonWorkingDay then begin
+                            Workingdays := Workingdays + 1;
+                        end;
+                    end;
+
+                    // Move to the next day
+                    CurrentDate := CurrentDate + 1;
+                end;
                 IsFound := recBericht.Get(recPSFT.Grund_ID, recPSFT.Monat_Jahr_ID, 'PROD');
                 if IsFound then begin
-                    recBericht.KrankheitstageMontag += recPSFT.Abwesenheitstage;
+                    recBericht.KrankeMontage += recPSFT.KrankeMontage;
                     recBericht.Modify();
                 end else begin
                     recBericht.GrundID := recPSFT.Grund_ID;
@@ -63,7 +101,8 @@ codeunit 123456746 Bericht
                     recBericht.Jahr := Year;
                     recBericht.Monat := MonthText;
                     recBericht.Abteilung := 'PROD';
-                    recBericht.KrankheitstageMontag := recPSFT.Abwesenheitstage;
+                    recBericht.KrankeMontage := recPSFT.KrankeMontage;
+                    recBericht.ArbeitstageMontags := Workingdays;
                     recBericht.Insert();
                 end;
             until recPSFT.Next() = 0;

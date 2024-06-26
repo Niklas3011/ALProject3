@@ -1,4 +1,4 @@
-table 123456743 PSFT
+table 123456748 PSFT
 {
     Caption = 'PSFT';
     DataClassification = ToBeClassified;
@@ -32,6 +32,11 @@ table 123456743 PSFT
         field(6; Abwesenheitstage; Integer)
         {
             Caption = 'Abwesenheitstage';
+            DataClassification = ToBeClassified;
+        }
+        field(7; KrankeMontage; Integer)
+        {
+            Caption = 'KrankeMontage';
             DataClassification = ToBeClassified;
         }
     }

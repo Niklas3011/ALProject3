@@ -33,7 +33,7 @@ page 123456746 Bericht
                 {
                     ToolTip = 'Specifies the value of the ArbeitstageMontags field.';
                 }
-                field(KrankeTageAmMontag; Rec.KrankheitstageMontag)
+                field(KrankeTageAmMontag; Rec.KrankeMontage)
                 {
                     ToolTip = 'Specifies the value of the KrankheitstageMontag field.';
                 }

@@ -29,9 +29,9 @@ table 123456746 Bericht
         {
             Caption = 'ArbeitstageMontags';
         }
-        field(7; KrankheitstageMontag; Integer)
+        field(7; KrankeMontage; Integer)
         {
-            Caption = 'KrankheitstageMontag';
+            Caption = 'KrankeMontage';
         }
         field(8; KrankenstandMontag; Integer)
         {

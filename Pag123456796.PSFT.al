@@ -1,6 +1,6 @@
 namespace ALProject.ALProject;
 
-page 123456743 PSFT
+page 123456748 PSFT
 {
     ApplicationArea = All;
     Caption = 'PSFT';
@@ -32,6 +32,10 @@ page 123456743 PSFT
                 field(Abwesenheitstage; Rec.Abwesenheitstage)
                 {
                     ToolTip = 'blyat';
+                }
+                field(KrankeMontage; Rec.KrankeMontage)
+                {
+                    Tooltip = 'adsfads';
                 }
             }
         }
