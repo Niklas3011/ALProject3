@@ -4,7 +4,7 @@ using Microsoft.Foundation.Calendar;
 
 codeunit 123456746 Bericht
 {
-    TableNo = 123456746; // Ensure this matches your table number
+    TableNo = 123456746;
 
     trigger OnRun()
 

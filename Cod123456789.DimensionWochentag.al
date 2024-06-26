@@ -20,12 +20,10 @@ codeunit 123456741 DimensionWochentag
         PK := 1;
         if dateRec.FindFirst() then begin
             repeat
-                // Process each record
                 dimRec.Init();
-                dimRec.Wochentag := dateRec."Period Name"; // Replace 'EntryDate' with actual field name from 'Date' table
+                dimRec.Wochentag := dateRec."Period Name";
                 dimRec.Wochentag_ID := PK;
                 PK += 1;
-                // Assign other fields as needed
                 if not dimRec.Insert() then
                     Message('Insert funktioniert nicht');
                 if dimRec.Wochentag = 'Freitag' then

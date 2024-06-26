@@ -16,14 +16,14 @@ codeunit 123456740 DimensionGrund
         PK := 1;
         if recAbsence.FindSet() then begin
             repeat
-                dimGrund.Init(); // Initialize the record variable
+                dimGrund.Init();
                 dimGrund.Grund := recAbsence.Description;
                 dimGrund.Grund_ID := recAbsence.Code;
                 if not dimGrund.Insert() then
-                    Message('Insert funktioniert nicht'); // Display error message if insert fails
-                PK += 1; // Increment primary key
+                    Message('Insert funktioniert nicht');
+                PK += 1;
 
-            until recAbsence.Next() = 0; // Move to the next record in Cause of Absence
+            until recAbsence.Next() = 0;
         end;
     end;
 

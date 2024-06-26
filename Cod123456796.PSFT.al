@@ -1,6 +1,6 @@
 codeunit 123456748 PSFT
 {
-    TableNo = PSFT; // Ensure this corresponds to your PSFT table ID
+    TableNo = PSFT;
 
     trigger OnRun()
     var
@@ -19,10 +19,7 @@ codeunit 123456748 PSFT
         MonthText: Text;
         YearText: Text;
         DayOfWeek: Integer;
-        Calendar: Record "Base Calendar Change";
-        base: Record "Base Calendar";
         custom: Record "Customized Calendar Change";
-        IsNonWorkingDay: Boolean;
         CU7600: Codeunit "Calendar Management";
         CompanyInformation: Record "Company Information";
     begin
@@ -51,19 +48,19 @@ codeunit 123456748 PSFT
                 end;
             until recZeit.Next() = 0;
         end;
-        base.Get('DE'); // Ensure 'DE' corresponds to the correct base calendar code
+
 
         if recPSFT.FindSet() then begin
             repeat
-                // Calculate facts
+
                 recAbsence.SetFilter("Employee No.", recPSFT.Mitarbeiter_ID);
                 recAbsence.SetFilter("Cause of Absence Code", recPSFT.Grund_ID);
 
-                // Determine the period
+
                 MonthText := COPYSTR(recPSFT.Monat_Jahr_ID, 1, STRPOS(recPSFT.Monat_Jahr_ID, '/') - 1);
                 YearText := COPYSTR(recPSFT.Monat_Jahr_ID, STRPOS(recPSFT.Monat_Jahr_ID, '/') + 1);
 
-                // Convert text to date
+
                 EVALUATE(Month, MonthText);
                 EVALUATE(Year, YearText);
                 NewDate := DMY2Date(1, Month, Year);

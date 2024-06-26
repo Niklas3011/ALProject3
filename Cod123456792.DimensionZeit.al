@@ -26,7 +26,6 @@ codeunit 123456742 DimensionZeit
         if dateRec.FindSet() then begin
             repeat
                 dimRec.INIT;
-
                 Year := DATE2DMY(dateRec."Period Start", 3);
                 Month := Date2DMY(dateRec."Period Start", 2);
 

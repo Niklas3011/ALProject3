@@ -1,5 +1,0 @@
-Bericht
-
-Felder: Abteilungsname,GrundID, Grund, Wochentag ID, Wochentagname JahrMonat_ID, Jahrname, Monatsname, ArbeitstageMontags, KrankheitstageMontag, KrankenstandMontag
-Angezeigte Felder: Abteilungsname, Grund, Wochentag, Jahr, Monat, ArbeitstageMontags, KrankheitstageMontag, KrankenstandMontag
-Input: Abteilungsname
