@@ -22,6 +22,7 @@ codeunit 123456748 PSFT
         custom: Record "Customized Calendar Change";
         CU7600: Codeunit "Calendar Management";
         CompanyInformation: Record "Company Information";
+        tmp: Integer;
     begin
         recPSFT.DeleteAll();
         CompanyInformation.get();
@@ -72,16 +73,21 @@ codeunit 123456748 PSFT
 
                 if recAbsence.FindSet() then begin
                     repeat
-                        DayOfWeek := Date2DWY(recAbsence."From Date", 1);
-                        if DayOfWeek = recPSFT.Wochentag_ID then begin
-
-                            if not CU7600.IsNonworkingDay(recAbsence."From Date", custom) then begin
-                                Abwesenheitstage_data += 1;
-                                if recPSFT.Wochentag_ID = 1 then begin
-                                    if recPSFT.Grund_ID = 'KRANK' then begin
+                        if recPSFT.Grund_ID = 'KRANK' then begin
+                            DayOfWeek := Date2DWY(recAbsence."From Date", 1);
+                            if DayOfWeek = recPSFT.Wochentag_ID then begin
+                                if not CU7600.IsNonworkingDay(recAbsence."From Date", custom) then begin
+                                    Abwesenheitstage_data += 1;
+                                    if recPSFT.Wochentag_ID = 1 then begin
                                         KrankeMontage_data += 1;
                                     end;
-
+                                end;
+                            end;
+                        end else begin
+                            DayOfWeek := Date2DWY(recAbsence."From Date", 1);
+                            if DayOfWeek = recPSFT.Wochentag_ID then begin
+                                if not CU7600.IsNonworkingDay(recAbsence."From Date", custom) then begin
+                                    Abwesenheitstage_data += recAbsence.Quantity
                                 end;
                             end;
                         end;

@@ -1,5 +1,6 @@
 namespace ALProject.ALProject;
 using Microsoft.Foundation.Company;
+using Microsoft.HumanResources.Absence;
 using Microsoft.Foundation.Calendar;
 
 codeunit 123456746 Bericht
@@ -32,8 +33,31 @@ codeunit 123456746 Bericht
         DayOfWeek: Integer;
         IsNonWorkingDay: Boolean;
         krankenstandDecimal: Decimal;
+        RecEA1, RecEA2 : Record "Employee Absence";
+        EmployeeNo1: Code[20];
+        FromDate1, ToDate1 : Date;
+        CountData: Integer;
 
     begin
+        if RecEA1.FindFirst() then begin
+            EmployeeNo1 := RecEA1."Employee No.";
+            FromDate1 := RecEA1."From Date";
+            ToDate1 := RecEA1."To Date";
+            RecEA2.Reset();
+            RecEA2.SetRange("Employee No.", EmployeeNo1);
+            RecEA2.SetRange("From Date", FromDate1);
+            RecEA2.SetRange("To Date", ToDate1);
+            CountData := 0;
+            repeat
+                CountData := CountData + 1;
+            until RecEA1.Next() = 0;
+        end;
+        if CountData >= 2 then begin
+            Message('Doppelte Datensätz, bitte Rohdaten überprüfen');
+        end;
+
+
+
         recBericht.DeleteAll();
         CompanyInformation.get();
         CU7600.SetSource(CompanyInformation, custom);
