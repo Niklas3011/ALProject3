@@ -72,20 +72,15 @@ codeunit 123456743 PSFT
                 recAbsence.SETRANGE("From Date", NewDate, EndDate);
                 Abwesenheitstage_data := 0;
 
-                //Check date in calender and if equal to Wochentag
 
                 if recAbsence.FindSet() then begin
                     repeat
-                        //Check date in calender and if equal to Wochentag
                         DayOfWeek := Date2DWY(recAbsence."From Date", 1);
                         if DayOfWeek = recPSFT.Wochentag_ID then
                             Abwesenheitstage_data += 1;
                     until recAbsence.Next() = 0;
                 end;
                 recPSFT.Abwesenheitstage := Abwesenheitstage_data;
-
-                //Soll Arbeitstage
-                //Kalender mit Feiertagen einfügen
 
                 if not recPSFT.Modify() then
                     Error('Update failed for PSFT');
