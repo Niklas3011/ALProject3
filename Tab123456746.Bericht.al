@@ -37,14 +37,10 @@ table 123456746 Bericht
         {
             Caption = 'KrankenstandMontag';
         }
-        field(9; ID; Integer)
-        {
-            Caption = 'ID';
-        }
     }
     keys
     {
-        key(PK; GrundID, MonatJahrID, ID)
+        key(PK; GrundID, MonatJahrID, Abteilung)
         {
             Clustered = true;
         }

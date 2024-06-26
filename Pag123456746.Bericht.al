@@ -41,10 +41,6 @@ page 123456746 Bericht
                 {
                     ToolTip = 'Specifies the value of the KrankenstandMontag field.';
                 }
-                field(ID; Rec.ID)
-                {
-                    ToolTip = 'ID';
-                }
             }
         }
     }
