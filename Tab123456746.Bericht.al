@@ -33,7 +33,7 @@ table 123456746 Bericht
         {
             Caption = 'KrankeMontage';
         }
-        field(8; KrankenstandMontag; Integer)
+        field(8; KrankenstandMontag; Text[10])
         {
             Caption = 'KrankenstandMontag';
         }

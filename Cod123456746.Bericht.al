@@ -31,6 +31,7 @@ codeunit 123456746 Bericht
         CurrentDate: Date;
         DayOfWeek: Integer;
         IsNonWorkingDay: Boolean;
+        krankenstandDecimal: Decimal;
 
     begin
         recBericht.DeleteAll();
@@ -103,9 +104,18 @@ codeunit 123456746 Bericht
                     recBericht.Abteilung := 'PROD';
                     recBericht.KrankeMontage := recPSFT.KrankeMontage;
                     recBericht.ArbeitstageMontags := Workingdays;
+                    recBericht.KrankeMontage := 3;
                     recBericht.Insert();
                 end;
             until recPSFT.Next() = 0;
+        end;
+        recBericht.Reset();
+        if recBericht.FindSet() then begin
+            repeat
+                krankenstandDecimal := (recBericht.KrankeMontage / recBericht.ArbeitstageMontags) * 100;
+                recBericht.KrankenstandMontag := FORMAT(krankenstandDecimal, 2) + '%';
+                recBericht.Modify();
+            until recBericht.Next() = 0;
         end;
     end;
 }
